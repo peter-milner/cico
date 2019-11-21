@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import 'bulma/css/bulma.min.css'
 
-import Hello from '../components/home'
+import App from '../components/app'
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="React" />,
+    <App />,
     document.body.appendChild(document.createElement('div')),
   )
 })
