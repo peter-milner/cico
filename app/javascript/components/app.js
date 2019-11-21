@@ -25,8 +25,13 @@ export default function App () {
                 </div>
             </section>
             <Notification message={notificationMessage} setNotificationMessage={setNotificationMessage} />
-            <Form setNotificationMessage={setNotificationMessage} />
+            <section className='section'>
+                <div className='columns'>
+                    <div className='column is-half is-offset-one-quarter'>
+                        <Form setNotificationMessage={setNotificationMessage} />
+                    </div>
+                </div>
+            </section>
         </>
     )
-}
-  
+}  
