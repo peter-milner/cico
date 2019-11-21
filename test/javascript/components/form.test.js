@@ -3,10 +3,8 @@ import { mount } from 'enzyme'
 import * as axios from 'axios'
 
 jest.mock('axios')
-axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {} }))
 
 import Form from '../../../app/javascript/components/form'
-import { doesNotReject } from 'assert'
 
 const defaultProps = {
     setNotificationMessage: jest.fn(),
@@ -20,10 +18,18 @@ const render = (props) => {
     )
 }
 
+beforeEach(() => {
+    jest.clearAllMocks();
+    axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {} }))
+})
+
 describe('<Form />', () => {
     test('snapshot', () => {
         const rendered = render()
-        expect(rendered).toMatchSnapshot()
+        const id = setImmediate(() => {
+            expect(rendered).toMatchSnapshot()
+        })
+        clearImmediate(id)
     })
 
     test('axios sends request with correct form data', () => {
@@ -34,14 +40,16 @@ describe('<Form />', () => {
         rendered.find('input').simulate('change', { target: { value: name } })
         rendered.find('button').first().simulate('click')
         rendered.find('form').simulate('submit')
-        setImmediate(() => {
+        let id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('/events', {'name': name, 'status': 1})
         })
+        clearImmediate(id)
         rendered.find('button').at(1).simulate('click')
         rendered.find('form').simulate('submit')
-        setImmediate(() => {
+        id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('/events', {'name': name, 'status': 0})
         })
+        clearImmediate(id)
     })
 
     test('calls updateEvents if successfully clocked in', () => {
@@ -49,33 +57,44 @@ describe('<Form />', () => {
         const spy = jest.spyOn(defaultProps, 'updateEvents')
 
         rendered.find('form').simulate('submit')
-        setImmediate(() => {
+        const id = setImmediate(() => {
             expect(spy).toHaveBeenCalled()
         })
+        clearImmediate(id)
     })
 
-    test('calls setNotificationMessage when clocked in', () => {
+    test('calls setNotificationMessage when clocked in/out', () => {
         const rendered = render()
         const spy = jest.spyOn(defaultProps, 'setNotificationMessage')
 
         rendered.find('form').simulate('submit')
-        setImmediate(() => {
+        let id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('You have successfully clocked out.')
         })
+        clearImmediate(id)
+
+        rendered.find('button').first().simulate('click')
+        rendered.find('form').simulate('submit')
+        id = setImmediate(() => {
+            expect(spy).toHaveBeenCalledWith('You have successfully clocked in.')
+        })
+        clearImmediate(id)
 
         axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {sameState: true} }))
         rendered.find('form').simulate('submit')
 
-        setImmediate(() => {
+        id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('You are already clocked out.')
         })
+        clearImmediate(id)
 
         axios.post.mockImplementation(() => Promise.reject(new Error('Failure')))
-        jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn()); // Suppress log in test
+        jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn()); // Suppress log
         rendered.find('form').simulate('submit')
 
-        setImmediate(() => {
+        id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('An error has occured. Please report this to the admin.')
         })
+        clearImmediate(id)
     })
 })

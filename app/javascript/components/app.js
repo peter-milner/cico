@@ -46,7 +46,7 @@ export default function App () {
                     </div>
                 </div>
             </section>
-            { previousEvents && 
+            { previousEvents &&
                 <section className='section'>
                     <div className='container has-text-centered'>
                         <h2 className='subtitle'>Previous Clock Events</h2>
