@@ -1,4 +1,14 @@
 class EventsController < ApplicationController
+    def index
+        @events = Event.all
+        render json: @events.order(id: :desc)
+    end
+
+    def show
+        @event = Event.find(params[:id])
+        render json: @event
+    end
+
     def create
         last_event_for_name = Event.where({ name: params[:name] }).last
         if last_event_for_name
@@ -11,6 +21,7 @@ class EventsController < ApplicationController
 
         @event = Event.new(event_params)
         @event.save
+        render json: @event
     end
 
     private

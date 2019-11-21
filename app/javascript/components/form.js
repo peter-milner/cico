@@ -12,21 +12,19 @@ export default function Form (props) {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        axios({
-            method: 'post',
-            url: '/events',
-            data: {
-                name: name,
-                status: status
-            }
+        axios.post('/events', {
+            name: name,
+            status: status
         }).then((response) => {
-            const checked = status === CHECKED_IN ? 'in' : 'out'
+            const clocked = status === CLOCKED_IN ? 'in' : 'out'
             if (response.data.sameState) {
-                props.setNotificationMessage(`You are already checked ${checked}`)
+                props.setNotificationMessage(`You are already clocked ${clocked}.`)
             } else {
-                props.setNotificationMessage(`You have successfully checked ${checked}`)
+                props.setNotificationMessage(`You have successfully clocked ${clocked}.`)
+                props.updateEvents()
             }
         }).catch((error) => {
+            console.log(error)
             props.setNotificationMessage('An error has occured. Please report this to the admin.')
         })
     }    
@@ -52,5 +50,6 @@ export default function Form (props) {
 }
 
 Form.propTypes = {
-    setNotificationMessage: PropTypes.func.isRequired
+    setNotificationMessage: PropTypes.func.isRequired,
+    updateEvents: PropTypes.func.isRequired
 }
