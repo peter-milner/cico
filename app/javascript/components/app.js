@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+import 'bulma/css/bulma.min.css'
 
 import Clock from './clock'
 import Form from './form'
 import Notification from './notification'
+
+const csrfToken = document.querySelector('[name=csrf-token]').content
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
 
 export default function App () {
     const [notificationMessage, setNotificationMessage] = useState(null)
