@@ -1,15 +1,34 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 
-export default function Form () {
-    const CLOCKED_IN = 'in'
-    const CLOCKED_OUT = 'out'
+export default function Form (props) {
+    const CLOCKED_IN = 1
+    const CLOCKED_OUT = 0
 
     const [name, setName] = useState('')
-    const [buttonClicked, setButtonClicked] = useState(null)
+    const [status, setStatus] = useState(null)
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(name, buttonClicked)
+
+        axios({
+            method: 'post',
+            url: '/events',
+            data: {
+                name: name,
+                status: status
+            }
+        }).then((response) => {
+            const checked = status === 1 ? 'in' : 'out'
+            props.setNotificationMessage(`You have successfully checked ${checked}`)
+        }).catch((error) => {
+            if (error.response.data.code && error.response.data.code === 1000) {
+                props.setNotificationMessage(error.response.data.error)
+            } else {
+                props.setNotificationMessage('An error has occured. Please report this to the admin.')
+            }
+        })
     }    
 
     return (
@@ -25,10 +44,10 @@ export default function Form () {
                         </div>
                         <div className='field is-grouped is-grouped-centered'>
                             <div className='control'>
-                                <button className='button is-link is-large' type='submit' onClick={() => setButtonClicked(CLOCKED_IN)}>Clock In</button>
+                                <button className='button is-link is-large' type='submit' onClick={() => setStatus(CLOCKED_IN)}>Clock In</button>
                             </div>
                             <div className='control'>
-                                <button className='button is-link is-large' type='submit' onClick={() => setButtonClicked(CLOCKED_OUT)}>Clock Out</button>
+                                <button className='button is-link is-large' type='submit' onClick={() => setStatus(CLOCKED_OUT)}>Clock Out</button>
                             </div>
                         </div>
                     </form>
@@ -36,4 +55,8 @@ export default function Form () {
             </div>
         </section>
     )
+}
+
+Form.propTypes = {
+    setNotificationMessage: PropTypes.func.isRequired
 }

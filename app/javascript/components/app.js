@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Clock from './clock'
 import Form from './form'
+import Notification from './notification'
 
 export default function App () {
+    const [notificationMessage, setNotificationMessage] = useState(null)
+
     return (
         <>
             <section className='section'>
@@ -16,7 +19,8 @@ export default function App () {
                     </h2>
                 </div>
             </section>
-            <Form />
+            <Notification message={notificationMessage} setNotificationMessage={setNotificationMessage} />
+            <Form setNotificationMessage={setNotificationMessage} />
         </>
     )
 }
