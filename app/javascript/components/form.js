@@ -20,14 +20,14 @@ export default function Form (props) {
                 status: status
             }
         }).then((response) => {
-            const checked = status === 1 ? 'in' : 'out'
-            props.setNotificationMessage(`You have successfully checked ${checked}`)
-        }).catch((error) => {
-            if (error.response.data.code && error.response.data.code === 1000) {
-                props.setNotificationMessage(error.response.data.error)
+            const checked = status === CHECKED_IN ? 'in' : 'out'
+            if (response.data.sameState) {
+                props.setNotificationMessage(`You are already checked ${checked}`)
             } else {
-                props.setNotificationMessage('An error has occured. Please report this to the admin.')
+                props.setNotificationMessage(`You have successfully checked ${checked}`)
             }
+        }).catch((error) => {
+            props.setNotificationMessage('An error has occured. Please report this to the admin.')
         })
     }    
 

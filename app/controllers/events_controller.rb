@@ -4,9 +4,8 @@ class EventsController < ApplicationController
         if last_event_for_name
             if params[:status] == last_event_for_name.read_attribute_before_type_cast(:status)
                 return render json: {
-                    code: 1000,
-                    error: 'You cannot update to the same status.'
-                }, status: :bad_request
+                    sameState: true,
+                }
             end
         end
 
