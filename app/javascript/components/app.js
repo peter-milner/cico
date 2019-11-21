@@ -17,10 +17,12 @@ export default function App () {
     const loadEvents = () => {
         axios.get('/events').then((response) => {
             setPreviousEvents(response.data)
+        }).catch((error) => {
+            console.log(error)
         })
     }
 
-    if (!previousEvents) {
+    if (previousEvents === null) {
         loadEvents()
     }
     
