@@ -1,9 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  status: 1
+  name: Bill
+  status: 0
 
 two:
-  name: MyString
+  name: Julian
+  status: 1
+
+three:
+  name: Mary
   status: 1
