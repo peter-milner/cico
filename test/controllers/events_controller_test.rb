@@ -21,18 +21,26 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
     assert response.body == @event.to_json
   end
 
-  test 'should create event' do
-    assert_difference('Event.count', 1) do
-      post events_url, params: { event: { name: 'test', status: :clocked_out} }
-    end
-    assert_response :success
-  end
+  # test 'should create event' do
+  #   assert_difference('Event.count', 1) do
+  #     post events_url, params: { event: { name: 'test', status: :clocked_in} }
+  #   end
+  #   assert_response :success
+  # end
 
-  test 'it should not create event for the same user with the same status' do
+  # test 'it should not create event for the same user with the same status' do
+  #   assert_difference('Event.count', 0) do
+  #     post events_url, params: { event: { name: @event.name, status: @event.status} }
+  #   end
+  #   assert response.body == {sameState: true}.to_json
+  #   assert_response :success
+  # end
+
+  test 'it should not create event for clocking out without clocking in firsts' do
     assert_difference('Event.count', 0) do
-      post events_url, params: { event: { name: @event.name, status: @event.status} }
+      post events_url, params: { event: { name: 'test123', status: :clocked_out} }
     end
-    assert response.body == {sameState: true}.to_json
+    assert response.body == {clockInFirst: true}.to_json
     assert_response :success
   end
 

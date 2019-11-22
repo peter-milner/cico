@@ -93,6 +93,18 @@ describe('<Form />', () => {
         clearImmediate(id)
     })
 
+    test('calls setNotification message on clockInFirst', () => {
+        axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {clockInFirst: true} }))
+        
+        const rendered = render()
+        rendered.find('form').simulate('submit')
+
+        const id = setImmediate(() => {
+            expect(spy).toHaveBeenCalledWith('You must clock in first.')
+        })
+        clearImmediate(id)
+    })
+
     test('calls setNotificationMessage on error', () => {
         axios.post.mockImplementation(() => Promise.reject(new Error('Failure')))
         jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn()); // Suppress log

@@ -19,6 +19,8 @@ export default function Form (props) {
             const clocked = status === CLOCKED_IN ? 'in' : 'out'
             if (response.data.sameState) {
                 props.setNotificationMessage(`You are already clocked ${clocked}.`)
+            } else if (response.data.clockInFirst) {
+                props.setNotificationMessage('You must clock in first.')
             } else {
                 props.setNotificationMessage(`You have successfully clocked ${clocked}.`)
                 props.updateEvents()
