@@ -1,24 +1,9 @@
-# README
+# CICO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Start
+1. Start with `rails server`
+2. Live at localhost:3000
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Testing
+1. Test Rails with `rails test`
+2. Test React with `yarn run test`
