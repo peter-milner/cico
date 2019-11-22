@@ -10,9 +10,12 @@ class EventsController < ApplicationController
     end
 
     def create
-        last_event_for_name = Event.where({ name: params[:name] }).last
-        if last_event_for_name
-            if params[:status] == last_event_for_name.read_attribute_before_type_cast(:status)
+        last_event_for_name = Event.where({ name: params[:event][:name] }).order(created_at: :asc).last
+        if last_event_for_name.present?
+            if params[:event][:status].is_a? Integer
+                params[:event][:status] = Event.statuses.key(params[:event][:status])
+            end
+            if params[:event][:status] == last_event_for_name.status
                 return render json: {
                     sameState: true,
                 }

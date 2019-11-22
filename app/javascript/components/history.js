@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import moment from 'moment'
 
 export default function History (props) {
     const deleteEvent = (id) => {
@@ -14,7 +15,7 @@ export default function History (props) {
     }
 
     const updateEvent = (id, e) => {
-        axios.patch(`/events/${id}`, { created_at: e.target.value }).then((response) => {
+        axios.patch(`/events/${id}`,{ created_at: new Date(e.target.value).toISOString() }).then((response) => {
             props.setNotificationMessage('You have succesfully edited the event.')
         }).catch((error) => {
             console.log(error)
@@ -43,7 +44,7 @@ export default function History (props) {
                                 <td>
                                     <input 
                                         type='datetime-local'
-                                        defaultValue={event.created_at.substring(0, event.created_at.length-1)}
+                                        defaultValue={moment(event.created_at, 'YYYY-MM-DDTHH:mm:ss.sssZ').format('YYYY-MM-DDTHH:mm:ss.sss')}
                                         onChange={(e) => updateEvent(event.id, e)}
                                     />
                                 </td>

@@ -78,8 +78,7 @@ describe('<History />', () => {
     test('axios is called with the correct data on edit', () => {
         const spy = jest.spyOn(axios, 'patch')
         const rendered = render()
-        let newDate = new Date().toISOString()
-        newDate = newDate.substring(0, newDate.length-1)
+        const newDate = new Date().toISOString()
         const row = rendered.find('tbody').find('tr').first()
         row.find('input[type="datetime-local"]').first().simulate(
             'change', 
@@ -98,8 +97,7 @@ describe('<History />', () => {
     test('notification is sent on successful edit', () => {
         const spyNotification = jest.spyOn(defaultProps, 'setNotificationMessage')
         const rendered = render()
-        let newDate = new Date().toISOString()
-        newDate = newDate.substring(0, newDate.length-1)
+        const newDate = new Date().toISOString()
         rendered.find('tbody').find('tr').first().find('input[type="datetime-local"]').first().simulate(
             'change', 
             {
@@ -120,8 +118,7 @@ describe('<History />', () => {
 
         const spyNotification = jest.spyOn(defaultProps, 'setNotificationMessage')
         const rendered = render()
-        let newDate = new Date().toISOString()
-        newDate = newDate.substring(0, newDate.length-1)
+        const newDate = new Date().toISOString()
         rendered.find('tbody').find('tr').first().find('input[type="datetime-local"]').first().simulate(
             'change', 
             {
