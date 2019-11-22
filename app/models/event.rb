@@ -1,3 +1,3 @@
 class Event < ApplicationRecord
-    enum status: { checked_out: 0, checked_in: 1 }
+    enum status: { clocked_out: 0, clocked_in: 1 }
 end

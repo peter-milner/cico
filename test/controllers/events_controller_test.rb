@@ -23,7 +23,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create event' do
     assert_difference('Event.count', 1) do
-      post events_url, params: { event: { name: 'test', status: :checked_out } } 
+      post events_url, params: { event: { name: 'test', status: :clocked_out } } 
     end
     assert_response :success
   end

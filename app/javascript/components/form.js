@@ -32,7 +32,7 @@ export default function Form (props) {
     return (
         <form onSubmit={handleSubmit}>
             <div className='field'>
-                <label className='label is-large'>Name</label>
+                <label className='label is-large'>Name (case sensitive)</label>
                 <div className='control'>
                     <input className='input is-large' type='text' value={name} onChange={e => setName(e.target.value)} />
                 </div>
