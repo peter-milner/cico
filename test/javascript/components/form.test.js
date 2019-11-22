@@ -79,20 +79,28 @@ describe('<Form />', () => {
             expect(spy).toHaveBeenCalledWith('You have successfully clocked in.')
         })
         clearImmediate(id)
+    })
 
+    test('calls setNotification message on duplicate status', () => {
         axios.post.mockImplementation(() => Promise.resolve({ status: 200, data: {sameState: true} }))
+        
+        const rendered = render()
         rendered.find('form').simulate('submit')
 
-        id = setImmediate(() => {
+        const id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('You are already clocked out.')
         })
         clearImmediate(id)
+    })
 
+    test('calls setNotificationMessage on error', () => {
         axios.post.mockImplementation(() => Promise.reject(new Error('Failure')))
         jest.spyOn(global.console, 'log').mockImplementation(() => jest.fn()); // Suppress log
+
+        const rendered = render()
         rendered.find('form').simulate('submit')
 
-        id = setImmediate(() => {
+        const id = setImmediate(() => {
             expect(spy).toHaveBeenCalledWith('An error has occured. Please report this to the admin.')
         })
         clearImmediate(id)

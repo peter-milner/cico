@@ -49,7 +49,7 @@ export default function App () {
                 <section className='section'>
                     <div className='container has-text-centered'>
                         <h2 className='subtitle'>Previous Clock Events</h2>
-                        <History events={previousEvents} />
+                        <History events={previousEvents} setNotificationMessage={setNotificationMessage} updateEvents={loadEvents} />
                     </div>
                 </section>
             }
