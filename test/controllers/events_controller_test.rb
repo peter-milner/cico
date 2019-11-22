@@ -12,7 +12,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   test 'should get events' do
     get events_url
     assert_response :success
-    assert response.body == Event.all.order(id: :desc).to_json
+    assert response.body == Event.all.order(created_at: :desc).to_json
   end
 
   test 'should show event' do

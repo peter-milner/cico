@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
     def index
         @events = Event.all
-        render json: @events.order(id: :desc)
+        render json: @events.order(created_at: :desc)
     end
 
     def show
@@ -38,6 +38,6 @@ class EventsController < ApplicationController
 
     private
     def event_params
-        params.require(:event).permit(:name, :status)
+        params.require(:event).permit(:name, :status, :created_at)
     end
 end
