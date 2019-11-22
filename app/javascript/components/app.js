@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import 'bulma/css/bulma.min.css'
 
 import Clock from './clock'
 import Form from './form'
